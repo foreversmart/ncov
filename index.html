@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+<head>
+    <meta charset="utf-8">
+</head>
+<body style="height: 100%; margin: 0">
+<div id="container" style="height: 100%"></div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/dataTool.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/world.js"></script>
+<script type="text/javascript" src="https://api.map.baidu.com/getscript?v=2.0&ak=KOmVjPVUAey1G2E8zNhPiuQ6QiEmAwZu&services=&t=20200103103842"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/bmap.min.js"></script>
+<script type="text/javascript">
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    myChart.showLoading();
+    $.get('data.txt', function (data) {
+        $.get('merge.json', function (geoJson) {
+            var items = data.split("&");
+            var datas = [{}]
+            items.forEach(function (item, index, array) {
+                console.log(item, index)
+                if (index % 2 == 1) {
+                    datas.push({name: array[index - 1], value: parseInt(item)})
+                }
+            })
+
+            console.log(datas)
+
+            myChart.hideLoading();
+            echarts.registerMap('Merge', geoJson);
+            myChart.setOption(option = {
+                title: {
+                    text: 'Ncov 新型冠状病毒中国部分区域打分数据',
+                    subtext: '数据来源于网上，由于数据和算法都存在很大缺陷打分结果只供一定的参考，切勿传谣信谣',
+                    sublink: 'https://github.com/foreversmart/ncov'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{b}<br/>{c}'
+                },
+                toolbox: {
+                    show: true,
+                    orient: 'vertical',
+                    left: 'right',
+                    top: 'center',
+                    feature: {
+                        dataView: {readOnly: false},
+                        restore: {},
+                        saveAsImage: {}
+                    }
+                },
+                visualMap: {
+                    type: 'piecewise',
+                    pieces: [
+                        {min: 100000, color: '#600100'},
+                        {min: 20000, max: 100000, color: '#8b2303'},
+                        {min: 7550, max: 20000, color: '#bf3b12'},
+                        {min: 2050, max: 7550, color: '#e66d15'},
+                        {min: 1050, max: 2050, color: '#ffa54d'},
+                        {min: 650, max: 1050, color: '#ffd931'},
+                        {min: 450, max: 650, color: '#fffb37'},
+                        {min: 250, max: 450, color: '#e2f54c'},
+                        {min: 230, max: 350, color: '#c9ef5d'},
+                        {min: 120, max: 230, color: '#cdf2a2'},
+                        {min: 30, max: 120, color: '#d8f9d2'},
+                        {max: 30, color: '#dbfcfa'}
+                    ],
+                },
+                series: [
+                    {
+                        name: 'Ncov 新型冠状病毒中国部分区域打分数据',
+                        type: 'map',
+                        mapType: 'Merge', // 自定义扩展图表类型
+                        zoom: 1.6,
+                        label: {
+                            // show: true
+                            fontSize: 12,
+                            color: "#ff0",
+                        },
+                        top: 250,
+                        data: datas,
+                        // 自定义名称映射
+                        nameMap: {}
+                    }
+                ]
+            });
+        });
+
+    })
+
+
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>
+</body>
+</html>
