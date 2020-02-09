@@ -5,7 +5,7 @@
 </head>
 <body style="height: 100%; margin: 0">
 <div id="container" style="height: 100%"></div>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
@@ -38,7 +38,7 @@
             myChart.setOption(option = {
                 title: {
                     text: 'Ncov 新型冠状病毒中国部分区域打分数据',
-                    subtext: '数据来源于网上，由于数据和算法都存在很大缺陷打分结果只供一定的参考，切勿传谣信谣',
+                    subtext: '数据来源于网上，由于数据和算法都存在很大缺陷打分结果只供一定的参考，切勿造谣传谣信谣',
                     sublink: 'https://github.com/foreversmart/ncov'
                 },
                 tooltip: {
@@ -59,18 +59,18 @@
                 visualMap: {
                     type: 'piecewise',
                     pieces: [
-                        {min: 100000, color: '#600100'},
-                        {min: 20000, max: 100000, color: '#8b2303'},
-                        {min: 7550, max: 20000, color: '#bf3b12'},
-                        {min: 2050, max: 7550, color: '#e66d15'},
-                        {min: 1050, max: 2050, color: '#ffa54d'},
-                        {min: 650, max: 1050, color: '#ffd931'},
-                        {min: 450, max: 650, color: '#fffb37'},
-                        {min: 250, max: 450, color: '#e2f54c'},
-                        {min: 230, max: 350, color: '#c9ef5d'},
-                        {min: 120, max: 230, color: '#cdf2a2'},
-                        {min: 30, max: 120, color: '#d8f9d2'},
-                        {max: 30, color: '#dbfcfa'}
+                        {min: 20000, color: '#600100'},
+                        {min: 4579, max: 20000, color: '#8b2303'},
+                        {min: 3160, max: 4579, color: '#bf3b12'},
+                        {min: 720, max: 3160, color: '#e66d15'},
+                        {min: 382, max: 720, color: '#ffa54d'},
+                        {min: 237, max: 382, color: '#ffd931'},
+                        {min: 144, max: 237, color: '#fffb37'},
+                        {min: 117, max: 144, color: '#e2f54c'},
+                        {min: 71, max: 117, color: '#c9ef5d'},
+                        {min: 35, max: 71, color: '#cdf2a2'},
+                        {min: 11, max: 35, color: '#d8f9d2'},
+                        {max: 11, color: '#dbfcfa'}
                     ],
                 },
                 series: [

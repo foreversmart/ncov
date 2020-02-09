@@ -1,8 +1,8 @@
-### ncov
+## ncov
 
 全国新型冠状病毒，肺炎疫情增长情况打分和全国市级打分结果展示。china novel coronavirus (nCoV) city level score and visualization.
 
-* 由于数据和算法都存在很大缺陷打分结果只供一定的参考，切勿传谣信谣 
+* 由于数据和算法都存在很大缺陷打分结果只供一定的参考，切勿造谣传谣信谣 
 
 #### 初衷
 
@@ -53,5 +53,5 @@ func (c *City) Calc() int {
 
 * 使用 echart 快速的进行可视化 https://www.echartsjs.com/en/index.html
 
-###### 中国加油，武汉加油！
+# 中国加油，武汉加油！
 

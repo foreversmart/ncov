@@ -158,7 +158,7 @@ func main() {
 		res := v.Calc()
 		resarr = append(resarr, res)
 
-		buf.WriteString(fmt.Sprintf("%s&%d&", city, v.Calc()))
+		buf.WriteString(fmt.Sprintf("%s&%d&", city, res))
 	}
 
 	sort.Ints(resarr)
@@ -183,7 +183,7 @@ func main() {
 
 }
 
-const score = 5
+const score = 10
 
 func (c *City) Calc() int {
 	day := -1
@@ -207,16 +207,18 @@ func (c *City) Calc() int {
 
 		delta := arr[i].Confirmed - arr[i+1].Confirmed
 		count = count + delta*score
-		for j := i + 1; j < len(arr)-1; j++ {
+		for j := i + 1; j <= len(arr)-1; j++ {
 			if j-i > 10 {
 				break
 			}
 
-			count = count - (arr[j+1].Confirmed - arr[j].Confirmed)
-
-			if j == len(arr)-2 && j+1-i > 10 {
-				count = count - arr[j+1].Confirmed
+			if j < len(arr)-1 {
+				count = count - (arr[j].Confirmed - arr[j+1].Confirmed)
+			} else {
+				// j == len(arr) -1
+				count = count - arr[j].Confirmed
 			}
+
 		}
 
 		// check bonus
@@ -230,6 +232,10 @@ func (c *City) Calc() int {
 			}
 		}
 
+	}
+
+	if count < 0 {
+		return 0
 	}
 
 	return count
