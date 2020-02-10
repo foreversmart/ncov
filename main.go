@@ -181,6 +181,23 @@ func main() {
 		fmt.Println(err)
 	}
 
+	// generate city history file
+	buf.Reset()
+	for city, v := range cityMap {
+		history := v.History()
+		buf.WriteString(city)
+		buf.WriteString("&")
+		for i := len(history) - 1; i >= 0; i-- {
+			buf.WriteString(fmt.Sprintf("%s|%d|", history[i].UpdatedTime.Format("01.02"), history[i].Confirmed))
+		}
+		buf.WriteString("&")
+	}
+
+	err = ioutil.WriteFile(filepath.Join(pwd, "history.txt"), buf.Bytes(), os.ModePerm)
+	if err != nil {
+		fmt.Println(err)
+	}
+
 }
 
 const score = 10
@@ -240,6 +257,22 @@ func (c *City) Calc() int {
 
 	return count
 
+}
+
+func (c *City) History() (history []*Data) {
+	day := -1
+	arr := make([]*Data, 0, 5)
+	for _, d := range c.Data {
+		if day == d.UpdatedTime.Day() {
+			continue
+		}
+
+		day = d.UpdatedTime.Day()
+
+		arr = append(arr, d)
+	}
+
+	return arr
 }
 
 func GetCityName(cityName, provinceName string) (res string) {
