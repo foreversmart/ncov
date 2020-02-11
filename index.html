@@ -3,8 +3,10 @@
 <head>
     <meta charset="utf-8">
 </head>
-<body style="height: 100%; margin: 0">
-<div id="container" style="height: 100%"></div>
+<body style="height: 100%;min-height: 1000px; margin: 0">
+<div id="container" style="height: 45em">
+</div>
+<div id="history" style="height:20em"></div>
 <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
@@ -17,13 +19,14 @@
 <script type="text/javascript">
     var dom = document.getElementById("container");
     var myChart = echarts.init(dom);
-    var app = {};
-    option = null;
+
+    var domHistory = document.getElementById("history");
+    var historyChart = echarts.init(domHistory)
     myChart.showLoading();
     $.get('data.txt', function (data) {
         $.get('merge.json', function (geoJson) {
             var items = data.split("&");
-            var datas = [{}]
+            var datas = []
             items.forEach(function (item, index, array) {
                 console.log(item, index)
                 if (index % 2 == 1) {
@@ -32,6 +35,81 @@
             })
 
             console.log(datas)
+            var history = new Map();
+            myChart.on('click', function (param) {
+                console.log(param)
+
+                var option = {
+                    title: {
+                        text: param.name,
+                        subtext: '确诊历史数据',
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: '{b}<br/>{c}'
+                    },
+                    xAxis: {
+                        type: 'category',
+                        data: null,
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: [{
+                        data: null,
+                        zoom: 0.4,
+                        type: 'line',
+                        smooth: true
+                    }]
+                }
+
+                if (history.size == 0) {
+                    historyChart.showLoading()
+                    $.get('history.txt', function (data) {
+                        var hisItem = data.split("&");
+                        hisItem.forEach(function (item, index, array) {
+                            if (index % 2 == 1) {
+                                var his = []
+                                var t = item.split("|")
+                                t.forEach(function (item, index, array) {
+                                    console.log(item, index)
+                                    if (index % 2 == 1) {
+                                        his.push({name: array[index - 1], value: parseInt(item)})
+                                    }
+                                })
+                                history.set(array[index - 1], his)
+                            }
+                        })
+
+                        var historyData = history.get(param.name)
+                        if (historyData == undefined) {
+                            alert("没有查到历史数据")
+                            return
+                        }
+                        option.xAxis.data = historyData.map(function (item) {
+                            return item.name
+                        })
+                        option.series[0].data = history.get(param.name)
+
+                        historyChart.setOption(option)
+                        historyChart.hideLoading()
+                    })
+                } else {
+                    var historyData = history.get(param.name)
+                    if (historyData == undefined) {
+                        alert("没有查到历史数据")
+                        return
+                    }
+                    option.xAxis.data = historyData.map(function (item) {
+                        return item.name
+                    })
+                    option.series[0].data = history.get(param.name)
+                    historyChart.setOption(option)
+                    historyChart.hideLoading()
+
+                }
+            })
+
 
             myChart.hideLoading();
             echarts.registerMap('Merge', geoJson);
@@ -45,19 +123,9 @@
                     trigger: 'item',
                     formatter: '{b}<br/>{c}'
                 },
-                toolbox: {
-                    show: true,
-                    orient: 'vertical',
-                    left: 'right',
-                    top: 'center',
-                    feature: {
-                        dataView: {readOnly: false},
-                        restore: {},
-                        saveAsImage: {}
-                    }
-                },
                 visualMap: {
                     type: 'piecewise',
+                    top: 350,
                     pieces: [
                         {min: 20000, color: '#600100'},
                         {min: 4579, max: 20000, color: '#8b2303'},
@@ -78,13 +146,13 @@
                         name: 'Ncov 新型冠状病毒中国部分区域打分数据',
                         type: 'map',
                         mapType: 'Merge', // 自定义扩展图表类型
-                        zoom: 1.6,
+                        zoom: 1,
                         label: {
                             // show: true
                             fontSize: 12,
                             color: "#ff0",
                         },
-                        top: 250,
+                        top: 100,
                         data: datas,
                         // 自定义名称映射
                         nameMap: {}
@@ -95,10 +163,12 @@
 
     })
 
+    window.onresize = function (event) {
+        myChart.resize();
+        historyChart.resize();
 
-    if (option && typeof option === "object") {
-        myChart.setOption(option, true);
     }
+
 </script>
 </body>
 </html>
