@@ -6,6 +6,12 @@
 
 Demo 网址： http://ncov.city
 
+数据可是化截图：
+
+![](http://foreversmart.cc:7444/images/20202122.png)
+
+![](http://foreversmart.cc:7444/images/20202121.png)
+
 #### 初衷
 
 这些天一直在看网上公开的数据，很多数据都是静态的数据，特别是到市这一级，只能查到当前确诊人数多少，
