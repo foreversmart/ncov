@@ -4,9 +4,12 @@
     <meta charset="utf-8">
 </head>
 <body style="height: 100%;min-height: 1000px; margin: 0">
-<div id="container" style="height: 45em">
+<div id="container" style="height: 40em">
 </div>
-<div id="history" style="height:20em"></div>
+<p style="color: #e66d2f; text-align: right; padding-left: 10px; padding-right: 10px">
+    数据来源于网上，由于数据和算法都存在很大缺陷打分结果只供一定的参考，切勿造谣传谣信谣<br/>
+    打分结果越高表示近期新增确诊人数越多，点击城市区域可以查看该城市历史确诊人数的变化</p>
+<div id="history" style="height:20em; width: 100%"></div>
 <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
@@ -42,7 +45,7 @@
                 var option = {
                     title: {
                         text: param.name,
-                        subtext: '确诊历史数据',
+                        subtext: '确诊人数历史',
                     },
                     tooltip: {
                         trigger: 'item',
@@ -116,7 +119,8 @@
             myChart.setOption(option = {
                 title: {
                     text: 'Ncov 新型冠状病毒中国部分区域打分数据',
-                    subtext: '数据来源于网上，由于数据和算法都存在很大缺陷打分结果只供一定的参考，切勿造谣传谣信谣',
+                    subtext: '数据来源于网上，由于数据和算法都存在很大缺陷打分结果只供一定的参考，切勿造谣传谣信谣<br/>' +
+                        '打分结果越高表示近期新增确诊人数越多，点击城市区域可以查看该城市历史确诊人数的变化',
                     sublink: 'https://github.com/foreversmart/ncov'
                 },
                 tooltip: {
@@ -143,7 +147,7 @@
                 },
                 series: [
                     {
-                        name: 'Ncov 新型冠状病毒中国部分区域打分数据',
+                        name: 'Ncov 新型冠状病毒中国部分区域打分结果',
                         type: 'map',
                         mapType: 'Merge', // 自定义扩展图表类型
                         zoom: 1,
