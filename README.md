@@ -6,7 +6,7 @@
 
 Demo 网址： http://ncov.city
 
-数据可是化截图：
+数据可视化截图：
 
 ![](http://foreversmart.cc:7444/images/20202122.png)
 
