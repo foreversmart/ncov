@@ -73,33 +73,33 @@ func main() {
 			switch j {
 			case 0:
 				provinceName = item
-			case 1:
+			case 3:
 				cityName = item
-			case 2:
+			case 6:
 				provinceConfirmedCount = item
 				provinceConfirmed, _ = strconv.ParseInt(provinceConfirmedCount, 10, 64)
-			case 3:
+			case 7:
 				provinceSuspectedCount = item
 				provinceSuspected, _ = strconv.ParseInt(provinceSuspectedCount, 10, 64)
-			case 4:
+			case 8:
 				provinceCuredCount = item
 				provinceCured, _ = strconv.ParseInt(provinceCuredCount, 10, 64)
-			case 5:
+			case 9:
 				provinceDeadCount = item
 				provinceDead, _ = strconv.ParseInt(provinceDeadCount, 10, 64)
-			case 6:
+			case 10:
 				cityConfirmedCount = item
 				cityConfirmed, _ = strconv.ParseInt(cityConfirmedCount, 10, 64)
-			case 7:
+			case 11:
 				citySuspectedCount = item
 				citySuspected, _ = strconv.ParseInt(citySuspectedCount, 10, 64)
-			case 8:
+			case 12:
 				cityCuredCount = item
 				cityCured, _ = strconv.ParseInt(cityCuredCount, 10, 64)
-			case 9:
+			case 13:
 				cityDeadCount = item
 				cityDead, _ = strconv.ParseInt(cityDeadCount, 10, 64)
-			case 10:
+			case 14:
 				updateTime = item
 
 			}
